@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+<h1>Добро пожаловать 🚀</h1>
+<p>Это мой первый проект на Django.</p>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card p-3">
+            <h5>Посты</h5>
+            <p>Посмотреть все посты</p>
+            <a href="/posts/" class="btn btn-primary">Перейти</a>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card p-3">
+            <h5>Создать пост</h5>
+            <p>Добавить новый пост</p>
+            <a href="{% url 'posts:form' %}" class="btn btn-success">Создать</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

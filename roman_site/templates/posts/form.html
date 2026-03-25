@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load django_bootstrap5 %}
+
+{% block title %}
+  {% if '/edit/' in request.path %}
+    <h2>Редактировать пост</h2>
+  {% elif '/delete/' in request.path %}
+    <h2>Удалить пост</h2>
+  {% else %}
+    <h2>Создать пост</h2>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+ 
+<form method="post">
+  {% csrf_token %}
+  {% with data=form.instance %}
+  {% if '/edit/' in request.path %}
+    {% bootstrap_form form %}
+  {% elif '/delete/' in request.path %}
+    <p>{{ data.title }}</p>
+    <p>{{ data.desc }}</p>
+    <p>{{ data.year }}</p>
+  {% else %}
+    {% bootstrap_form form %}
+  {% endif %}
+  {% bootstrap_button button_type="submit" content="Send" %}
+</form>
+{% endwith %}
+{% endblock %}
