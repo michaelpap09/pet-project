@@ -1,6 +1,8 @@
 from django.db import models
-
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 class Post(models.Model):
@@ -17,3 +19,6 @@ class Post(models.Model):
         'pub date',
         auto_now_add=True
     )
+    author = models.ForeignKey(
+        User, verbose_name='Автор записи', on_delete=models.CASCADE, null=True
+    ) 

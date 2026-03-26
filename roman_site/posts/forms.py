@@ -10,9 +10,10 @@ BEATLES = {'Биби', 'Трамп', 'Эпштейн'}
 class Form(forms.ModelForm):
     class Meta:
         model = Post
-        fields = '__all__'
+        exclude = ('author',)
         widgets = {
-            'exact_date': forms.DateInput(attrs={'type': 'date'})
+            'exact_date': forms.DateInput(attrs={'type': 'date'}),
+            'desc': forms.Textarea(attrs={'rows': 3, 'cols': 3})
         }
 
         def clean(self):

@@ -13,9 +13,18 @@
             <p>{{ post.desc|truncatewords:20 }}</p>
             <p>{{ post.year }}</p>
             <p>{{ post.pub_date }}</p>
+            {% if post.author == request.user %}
+              <p>Вы</p>
+            {% else %}
+              <p>{{ post.author }}</p>
+            {% endif %}
             <a href="{% url 'posts:post' post.pk %}" class="btn btn-primary">Читать</a>
-            <a href="{% url 'posts:delete' post.pk %}" class="btn btn-primary">Удалить</a>
-            <a href="{% url 'posts:edit' post.pk %}" class="btn btn-primary">Редактировать</a>
+            {% if post.author == request.user %}
+              <a href="{% url 'posts:delete' post.pk %}" class="btn btn-primary">Удалить</a>
+            {% endif %}
+            {% if post.author == request.user %}
+              <a href="{% url 'posts:edit' post.pk %}" class="btn btn-primary">Редактировать</a>
+            {% endif %}
         </div>
     </div>
     {% endfor %}

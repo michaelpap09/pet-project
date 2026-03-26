@@ -14,7 +14,10 @@ SECRET_KEY = 'django-insecure-xishg^#p8r4(r#js2)g11s^0^xexvw&a&x#_j6wx_2r53j@4!_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+]
 
 LOGIN_URL = 'login'           
 
@@ -27,6 +30,7 @@ EMAIL_FILE_PATH = BASE_DIR / 'sent_emails'
 # Application definition
 
 INSTALLED_APPS = [
+    'core.apps.CoreConfig',
     'users.apps.UsersConfig',
     'django_bootstrap5',
     'pages.apps.PagesConfig',
@@ -112,10 +116,11 @@ USE_I18N = True
 
 USE_TZ = True
 
-AUTH_USER_MODEL = 'users.NewUser' 
-
+AUTH_USER_MODEL = 'users.NewUser'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+CSRF_FAILURE_VIEW = 'core.views.csrf_failure'
