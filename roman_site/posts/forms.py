@@ -2,7 +2,7 @@ from django import forms
 from django.core.mail import send_mail
 from django.core.exceptions import ValidationError
 
-from .models import Post
+from .models import Post, Comment
 
 BEATLES = {'Биби', 'Трамп', 'Эпштейн'}
 
@@ -30,4 +30,11 @@ class Form(forms.ModelForm):
                 )
                 raise ValidationError(
                     'Мы тоже любим Битлз, но введите, пожалуйста, настоящее имя!'
-                ) 
+                )
+            
+
+class TextForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('text',)
+        widgets = {'text': forms.Textarea(attrs={'rows': 3})}

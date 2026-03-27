@@ -13,7 +13,7 @@ urlpatterns = [
     ),
     path(
         '<int:pk>/',
-        views.Post.as_view(template_name="posts/post.html",),
+        views.PostDetail.as_view(template_name="posts/post.html",),
         name='post'
     ),
     path(
@@ -30,5 +30,10 @@ urlpatterns = [
         'form/',
         views.Create.as_view(template_name="posts/form.html",),
         name='form'
+    ),
+    path(
+        '<int:pk>/comment/',
+        views.add_comment,
+        name='add_comment'
     ),
 ]

@@ -18,6 +18,22 @@
             {% else %}
               <p>{{ post.author }}</p>
             {% endif %}
+            <p>
+              {% spaceless %}
+                {% for tag in post.tags.all %}
+                  {% if forloop.first %}
+                    <span>{{ tag.tag|title }}</span>
+                  {% else %}
+                    <span>{{ tag.tag|lower }}</span>
+                  {% endif %}
+                  {% if not forloop.last %}
+                    <span>, </span>
+                  {% else %}
+                    пользователя {{ post.author.username }}
+                  {% endif %}
+                {% endfor %}
+              {% endspaceless %}
+            </p>
             <a href="{% url 'posts:post' post.pk %}" class="btn btn-primary">Читать</a>
             {% if post.author == request.user %}
               <a href="{% url 'posts:delete' post.pk %}" class="btn btn-primary">Удалить</a>

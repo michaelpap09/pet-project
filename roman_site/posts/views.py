@@ -1,10 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, CreateView, DeleteView, UpdateView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required
 
-from .models import Post
-from .forms import Form
+from .models import Post, Tag
+from .forms import Form, TextForm
 
 
 class List(LoginRequiredMixin, ListView):
@@ -50,7 +51,28 @@ class EditPost(UserPassesTestMixin, UpdateView):
         return object.author == self.request.user 
 
 
-class Post(DetailView):
+class PostDetail(DetailView):
     model = Post
     template_name = 'post.html'
     context_object_name = 'post'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = TextForm()
+        context['congratulations'] = (
+            self.object.congratulations.select_related('author')
+        )
+        context['tag'] = Tag.objects.all()
+        return context
+
+
+@login_required
+def add_comment(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    form = TextForm(request.POST)
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.author = request.user
+        comment.post = post
+        comment.save()
+    return redirect('posts:post', pk=pk)
